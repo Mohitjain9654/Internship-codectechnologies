@@ -132,7 +132,7 @@ When the user asks a question:
 Clone the repository
 
 ```bash
-git clone https://github.com/your-username/AI-Document-Assistant.git
+git clone https://github.com/Mohitjain9654/AI-Document-Assistant.git
 
 cd AI-Document-Assistant
 ```
@@ -219,9 +219,7 @@ http://localhost:8501
 
 **Mohit**
 
-GitHub: https://github.com/yourusername
-
-LinkedIn: https://linkedin.com/in/yourprofile
+GitHub: https://github.com/Mohitjain9654
 
 ---
 
