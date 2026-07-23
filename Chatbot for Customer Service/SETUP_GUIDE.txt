@@ -1,0 +1,191 @@
+# ============================================================
+# COMPLETE SETUP GUIDE — RAG Document Q&A Chatbot
+# For VS Code on Windows/Mac/Linux — Beginner Friendly
+# ============================================================
+
+
+STEP 1 — INSTALL PYTHON
+========================
+1. Go to https://www.python.org/downloads/
+2. Download Python 3.10 or 3.11 (NOT 3.12 — some libraries lag behind)
+3. During install on Windows: CHECK "Add Python to PATH" ← IMPORTANT
+4. Verify: open a terminal and type:
+      python --version
+   You should see: Python 3.10.x or 3.11.x
+
+
+STEP 2 — INSTALL VS CODE
+=========================
+1. Go to https://code.visualstudio.com/
+2. Download and install
+3. Open VS Code
+4. Install the Python extension:
+   - Click the Extensions icon on the left (looks like 4 squares)
+   - Search "Python" → Install the one by Microsoft
+
+
+STEP 3 — CREATE YOUR PROJECT FOLDER
+=====================================
+1. Create a new folder anywhere on your computer:
+      Windows: C:\Users\YourName\rag_project
+      Mac/Linux: ~/rag_project
+
+2. Open VS Code
+3. File → Open Folder → select your rag_project folder
+4. You should see the empty folder in the Explorer panel on the left
+
+
+STEP 4 — CREATE A VIRTUAL ENVIRONMENT
+=======================================
+This keeps your project's libraries separate from the rest of your system.
+
+1. In VS Code, open the Terminal:
+      Terminal menu → New Terminal
+      (or press Ctrl+` on Windows/Linux, Cmd+` on Mac)
+
+2. You'll see a terminal at the bottom of VS Code.
+   Make sure you're in your rag_project folder.
+
+3. Create a virtual environment:
+      Windows:    python -m venv venv
+      Mac/Linux:  python3 -m venv venv
+
+4. Activate it:
+      Windows:    venv\Scripts\activate
+      Mac/Linux:  source venv/bin/activate
+
+5. You should see (venv) at the start of your terminal line.
+   That means it's active. ✓
+
+   IMPORTANT: Every time you open VS Code for this project,
+   you need to activate the venv again with step 4.
+
+6. Tell VS Code to use this Python:
+   - Press Ctrl+Shift+P (or Cmd+Shift+P on Mac)
+   - Type: Python: Select Interpreter
+   - Choose the one that says ./venv/Scripts/python or ./venv/bin/python
+
+
+STEP 5 — COPY ALL PROJECT FILES
+=================================
+Copy these files into your rag_project folder:
+   - document_loader.py
+   - chunker.py
+   - embedder.py
+   - vector_store.py
+   - llm_handler.py
+   - rag_pipeline.py
+   - app.py
+   - requirements.txt
+   - .env
+
+Your folder should look like:
+   rag_project/
+   ├── venv/                 ← created by step 4
+   ├── document_loader.py
+   ├── chunker.py
+   ├── embedder.py
+   ├── vector_store.py
+   ├── llm_handler.py
+   ├── rag_pipeline.py
+   ├── app.py
+   ├── requirements.txt
+   └── .env
+
+
+STEP 6 — INSTALL LIBRARIES
+============================
+In your VS Code terminal (with venv active):
+
+   pip install -r requirements.txt
+
+This will install all libraries. It may take 3-5 minutes.
+The sentence-transformers library is ~500MB (downloads a model).
+
+If you get errors on Windows about "Microsoft Visual C++":
+   pip install --upgrade pip setuptools wheel
+   pip install -r requirements.txt
+
+If faiss-cpu fails:
+   pip install faiss-cpu --no-cache-dir
+
+
+STEP 7 — SET UP OLLAMA (NO API KEY)
+=====================================
+1. Install Ollama: https://ollama.com/download
+2. Start Ollama server:
+      ollama serve
+3. Pull a model once:
+      ollama pull llama3.2
+4. Open the .env file in VS Code and set:
+      OLLAMA_MODEL=llama3.2
+5. Save the file (Ctrl+S)
+
+
+STEP 8 — TEST EACH COMPONENT
+==============================
+Run each file individually to check everything works:
+
+   python document_loader.py your_file.pdf
+   python chunker.py
+   python embedder.py
+   python vector_store.py
+   python llm_handler.py
+
+Each should print success messages. If any fails, the error message
+will tell you what's wrong.
+
+
+STEP 9 — RUN THE APP
+======================
+   streamlit run app.py
+
+Your browser will open automatically at:
+   http://localhost:8501
+
+If it doesn't open automatically, open your browser and go to that URL.
+
+To stop the app: press Ctrl+C in the terminal.
+
+
+COMMON ERRORS AND FIXES
+========================
+
+Error: "ModuleNotFoundError: No module named 'X'"
+Fix: pip install X
+     (or check that venv is activated)
+
+Error: "Ollama server is not running"
+Fix: Run `ollama serve` and ensure localhost:11434 is reachable
+
+Error: "No text extracted from PDF"
+Fix: Your PDF may be scanned. Try a different PDF with actual text.
+
+Error: "faiss not found" on M1/M2 Mac
+Fix: pip install faiss-cpu
+
+Error: Streamlit shows blank page
+Fix: Hard refresh your browser (Ctrl+Shift+R)
+
+Error: Port 8501 already in use
+Fix: streamlit run app.py --server.port 8502
+
+
+FOLDER STRUCTURE AFTER RUNNING
+================================
+After processing a document, you'll also see:
+   - vector_store.faiss    ← the FAISS index
+   - chunks.pkl            ← saved text chunks
+   - metadata.pkl          ← source info
+
+
+DEPLOYING TO STREAMLIT CLOUD (FREE)
+=====================================
+1. Push your project to GitHub (don't push .env — add it to .gitignore)
+2. Go to https://share.streamlit.io
+3. Connect your GitHub account
+4. Select your repo → set main file to app.py
+5. For Streamlit Cloud, use a hosted LLM provider (Ollama is local-only by default)
+6. Deploy!
+
+Your app will be live at: https://yourappname.streamlit.app
